@@ -1,0 +1,14 @@
+{
+  "name": "miia",
+  "private": false,
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "main": "app.js",
+  "dependencies": {
+    "@tinyhttp/app": "latest",
+    "@tinyhttp/logger": "latest"
+  },
+  "type": "module"
+}

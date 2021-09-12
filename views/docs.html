@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Miaa - Docs
+    </title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            padding: 15px 25px 10px 25px;
+            font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+            /* background-image: url('https://i.ibb.co/vDNtpny/miia.png'); */
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: bottom center;
+            background-size: 40%;
+            font-family: 'DotGothic16', sans-serif;
+            font-size: 1.05rem;
+            min-height: 100%;
+            display: grid;
+            grid-template-rows: 1fr auto;
+        }
+
+        pre {
+            font-family: 'DotGothic16', sans-serif;
+            font-size: 1.05rem;
+        }
+
+        @media screen and (max-width: 600px) {
+            body {
+                background-position: bottom right;
+                background-origin: content-box;
+            }
+        }
+
+        a {
+            color: #ff8ca5;
+        }
+
+        .miia {
+            color: #ff8ca5;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h2 class="miia">Docs</h2>
+        <ul>
+            <li>
+                <strong>GET /</strong>
+                <p>Return => html con presentazione dello stub</p>
+            </li>
+            <li>
+                <strong>GET /docs</strong>
+                <p>Return => html con questa pagina</p>
+            </li>
+            <li>
+                <strong>GET /stream/:anime/:ep</strong>
+                <p>Return => 206</p>
+                <p>Salva nella cartella <strong>anime</strong> le tue serie. (La cartella pu&ograve; essere un symlink)
+                </p>
+                <div>Ogni sotto directory conterr&agrave; il nome della serie che matcher&agrave; il primo parametro
+                    nell'url
+                    <strong>/:anime</strong>
+                </div>
+                <div>All'interno di ogni directory saranno presenti gli episodi che matcheranno il secondo parametro di
+                    url
+                    <strong>/:ep</strong>
+                </div>
+                <p>Esempio: anime -> MiniDra -> 01.mp4</p>
+                <p>=> /stream/MiniDra/01.mp4</p>
+            </li>
+            <li>
+                <strong>GET /warn</strong>
+                <p>Return => 206 video con un messaggio di avviso: segnala che non sei autorizzato</p>
+            </li>
+        </ul>
+
+        <p>
+            <strong>config.js</strong>
+        <div>Aggiungi una voce all'array trusted per ogni host/url che vuoi abilitare</div>
+        </p>
+        <p>
+            <strong>Proxy</strong>
+        <div>Miia funziona al meglio se servita da un reverse proxy come nginx con un simile blocco:</div>
+        <pre>
+server {
+    listen 443 ssl http2;
+    server_name https://...;
+    ssl_session_cache  builtin:1000  shared:SSL:10m;
+    ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4;
+    ssl_prefer_server_ciphers on;
+
+    location / {
+        proxy_pass http://127.0.0.1:5055;
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Port 443;
+        proxy_set_header Host $host;
+    }
+    ssl_certificate /etc/...
+    ssl_certificate_key /etc/...
+}
+</pre>
+        </p>
+    </div>
+    <p><a href="/">Home</a></p>
+</body>
+
+</html>
