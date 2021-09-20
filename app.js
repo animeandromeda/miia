@@ -14,14 +14,14 @@ app
   .set('trust proxy', true)
   .get('/', (_, res) =>
     void res.format({
-      html: () => res.sendFile(join(__dirname, 'views', 'index.html')),
+      html: () => res.sendFile(join(__dirname, 'views', 'index.ejs')),
       text: () => res.send('Miia stub'),
       json: () => res.json('Miia stub')
     })
   )
   .get('/docs', (_, res) =>
     void res.format({
-      html: () => res.sendFile(join(__dirname, 'views', 'docs.html')),
+      html: () => res.sendFile(join(__dirname, 'views', 'docs.ejs')),
     })
   )
 
