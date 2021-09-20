@@ -19,11 +19,6 @@ app
       json: () => res.json('Miia stub')
     })
   )
-  .get('/docs', (_, res) =>
-    void res.format({
-      html: () => res.sendFile(join(__dirname, 'views', 'docs.ejs')),
-    })
-  )
 
 app.get('/stream/:anime/:ep', checkOrigin, (req, res) =>
   streamer(req, res))
